@@ -1,5 +1,5 @@
 /*!
-*  ui-leaflet 1.0.3 2017-01-26
+*  ui-leaflet 1.0.4-rc.1 2017-05-17
 *  ui-leaflet - An AngularJS directive to easily interact with Leaflet maps
 *  git: https://github.com/angular-ui/ui-leaflet
 */
@@ -3370,21 +3370,25 @@ centerDirectiveTypes.forEach(function(directiveName) {
                         }
 
                         if (center.autoDiscover === true) {
+                            var enableHighAccuracy = center.enableHighAccuracy ? center.enableHighAccuracy : false;
                             if (!isNumber(center.zoom)) {
                                 map.setView([defaults.center.lat, defaults.center.lng], defaults.center.zoom);
                             }
                             if (isNumber(center.zoom) && center.zoom > defaults.center.zoom) {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true,
                                     maxZoom: center.zoom
                                 });
                             } else if (isDefined(defaults.maxZoom)) {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true,
                                     maxZoom: defaults.maxZoom
                                 });
                             } else {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true
                                 });
                             }
