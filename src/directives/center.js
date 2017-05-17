@@ -127,21 +127,25 @@ centerDirectiveTypes.forEach(function(directiveName) {
                         }
 
                         if (center.autoDiscover === true) {
+                            var enableHighAccuracy = center.enableHighAccuracy ? center.enableHighAccuracy : false;
                             if (!isNumber(center.zoom)) {
                                 map.setView([defaults.center.lat, defaults.center.lng], defaults.center.zoom);
                             }
                             if (isNumber(center.zoom) && center.zoom > defaults.center.zoom) {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true,
                                     maxZoom: center.zoom
                                 });
                             } else if (isDefined(defaults.maxZoom)) {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true,
                                     maxZoom: defaults.maxZoom
                                 });
                             } else {
                                 map.locate({
+                                    enableHighAccuracy: enableHighAccuracy,
                                     setView: true
                                 });
                             }
