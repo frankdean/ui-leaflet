@@ -194,7 +194,7 @@ var generateExamplesJSONFile = function(examples_directory, json_file) {
 };
 
 var controllers_directory = path.join(__dirname, 'examples', 'js', 'controllers');
-mkdirp(controllers_directory, function(err) {
+mkdirp(controllers_directory, {}, function(err) {
     cleanJavascriptFilesFromControllersDirectory(controllers_directory).then(function() {
         var examples_directory = path.join(__dirname, 'examples');
         generateControllersFromExamples(examples_directory, controllers_directory).then(function() {
