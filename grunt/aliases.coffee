@@ -11,7 +11,7 @@ module.exports =
 
     coverage:['karma', 'open:coverage', 'connect:coverage']
 
-    install:[ 'shell:npm_install','bower:install','shell:protractor_update']
+    install:[ 'shell:yarn_install','bower:install','shell:protractor_update']
 
     default:['build']
 

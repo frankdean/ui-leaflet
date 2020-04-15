@@ -15,8 +15,8 @@ module.exports = function (grunt, options) {
         protractor_update: {
             command: 'node node_modules/protractor/bin/webdriver-manager update'
         },
-        npm_install: {
-            command: 'npm install'
+        yarn_install: {
+            command: 'yarn install'
         },
         examples: {
             command: 'node generate-examples.js'
