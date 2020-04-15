@@ -19,6 +19,7 @@ describe 'leafletData', ->
             @setPromise = $q.all [leafletData.setMarkers(@knownMarkers),
                 leafletData.setGeoJSON(@knownGeoJSON)
             ]
+            null
 
         it 'has unique data', (done)->
             _geoJSON = null

@@ -25,17 +25,27 @@
                 },
                 layers: {
                     baselayers: {
+                        osm: {
+                            name: 'OpenStreetMap',
+                            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            type: 'xyz'
+                        },
+                        cycle: {
+                            name: "OpenCycleMap",
+                            type: "xyz",
+                            url: "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+                            layerOptions: {
+                                subdomains: ["a", "b", "c"],
+                                attribution: "&copy; <a href=\"http://www.opencyclemap.org/copyright\">OpenCycleMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                                continuousWorld: true
+                            }
+                        },
                         mapbox_light: {
                             name: 'Mapbox Light',
                             type: 'mapbox',
                             user: 'elesdoar',
                             key: 'citojtj9e00022iqjmdzhrdwd',
                             apiKey: 'pk.eyJ1IjoiZWxlc2RvYXIiLCJhIjoiY2l0bmcwaDNpMDQzMTJvbDRpaTltN2dlbiJ9.KDnhRVh9St6vpQovMI7iLg'
-                        },
-                        osm: {
-                            name: 'OpenStreetMap',
-                            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            type: 'xyz'
                         }
                     }
                 }

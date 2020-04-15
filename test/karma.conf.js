@@ -27,12 +27,12 @@ module.exports = (karma) => {
             'bower_components/leaflet.markercluster/dist/leaflet.markercluster.js',
             'bower_components/leaflet.vector-markers/dist/leaflet-vector-markers.js',
             mainLib,
-            'test/unit/bootstrap.coffee',
+            {pattern: 'test/unit/bootstrap.coffee', type: "js"},
             'test/unit/**/*.js',
-            'test/unit/**/*.coffee',
-            'bower_components/Leaflet.PolylineDecorator/leaflet.polylineDecorator.js',
+            {pattern: 'test/unit/**/*.coffee', type: "js"},
+            'bower_components/leaflet-polylinedecorator/leaflet.polylineDecorator.js',
             //do not include those specs for jasmine html runner by karma kama_jasmine_runner.html
-            {pattern:'test/**/**/*.coffee', included: false},
+            //{pattern:'test/**/**/*.coffee', included: false},
             {pattern: 'dist/**/*.js.map', included: false}
         ],
         // Frameworks

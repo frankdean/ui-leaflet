@@ -1,6 +1,10 @@
 'use strict';
 
-describe('Loading 0205-layers-googlemaps-example.html', function() {
+// TODO: Google Map plugin has been removed from the `leaflet-plugins` package.
+// It seems to have been replaced with:
+// https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant
+// See https://github.com/shramov/leaflet-plugins/issues/250
+xdescribe('Loading 0205-layers-googlemaps-example.html', function() {
 
     beforeEach(function() {
         browser.get('0205-layers-googlemaps-example.html');

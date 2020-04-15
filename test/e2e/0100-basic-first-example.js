@@ -9,9 +9,11 @@ describe('Loading 0100-basic-first-example.html', function() {
         }, 5000);
     }, 30000);
 
+
+  // <div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> | © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div>
     it('should load the Leaflet map inside the directive tag', function() {
-        element(by.className('angular-leaflet-map')).getText().then(function(text) {
-            expect(text).toBe("+\n-\nLeaflet | © OpenStreetMap contributors");
+        element(by.className('leaflet-control-attribution')).getText().then(function(text) {
+            expect(text).toBe("Leaflet | © OpenStreetMap contributors");
         });
     });
 

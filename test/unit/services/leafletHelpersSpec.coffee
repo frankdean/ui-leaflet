@@ -25,15 +25,16 @@ describe 'leafletHelpers', ->
 
     describe 'defaultTo', ->
 
-        it 'keeps value', ->
+        describe 'keeps value', ->
             it 'false', ->
-                expect(@subject.defaultTo(false, true)).toBeTruthy()
+                expect(@subject.defaultTo(false, true)).toBeFalsy()
 
             it 'string', ->
                 expect(@subject.defaultTo('hi', 'nope')).toBe('hi')
 
             it '{}', ->
-                expect(@subject.defaultTo({}, null)).toBe({})
+                emptyObject = {}
+                expect(@subject.defaultTo(emptyObject, null)).toBe(emptyObject)
 
         describe 'gets default', ->
             it 'undefined', ->

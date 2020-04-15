@@ -10,7 +10,8 @@ describe('Loading 0107-basic-tiles-example.html', function() {
     });
 
     it('should update the map tiles if clicked on the tiles changer buttons', function() {
-        expect(element(by.xpath('//img[contains(@src, "http://api.tiles.mapbox.com/v4/bufanuvols.lia35jfp/")]')).isPresent()).toBe(true);
+        element(by.xpath('//button[text()="OpenCycleMaps"]')).click();
+        expect(element(by.xpath('//img[contains(@src, "http://a.tile.opencyclemap.org")]')).isPresent()).toBe(true);
 
         element(by.xpath('//button[text()="OpenStreetMaps"]')).click();
         expect(element(by.xpath('//img[contains(@src, "http://b.tile.openstreetmap.org")]')).isPresent()).toBe(true);

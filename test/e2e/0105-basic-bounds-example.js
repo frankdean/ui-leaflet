@@ -10,17 +10,23 @@ describe('Loading 0105-basic-bounds-example.html', function() {
     });
 
     it('should update the bounds values in the input if clicked the zoom control', function() {
-        expect(element(by.model("bounds.southWest.lat")).getAttribute("value")).toBe("51.507941142609155");
-        expect(element(by.model("bounds.southWest.lng")).getAttribute("value")).toBe("-0.09059429168701172");
-        expect(element(by.model("bounds.northEast.lat")).getAttribute("value")).toBe("51.50954376090435");
-        expect(element(by.model("bounds.northEast.lng")).getAttribute("value")).toBe("-0.0851815938949585");
+        var i = 7, zoomOutControl = element(by.xpath('.//*[@title="Zoom out"]'));
+        expect(element(by.model("bounds.southWest.lat")).getAttribute("value")).toBeCloseTo(51.507941142609155, 3);
+        expect(element(by.model("bounds.southWest.lng")).getAttribute("value")).toBeCloseTo(-0.09059429168701172, 3);
+        expect(element(by.model("bounds.northEast.lat")).getAttribute("value")).toBeCloseTo(51.50954376090435, 3);
+        expect(element(by.model("bounds.northEast.lng")).getAttribute("value")).toBeCloseTo(-0.0851815938949585, 3);
 
-        element(by.xpath('.//*[@title="Zoom out"]')).click().then(function() {
+        do {
+            zoomOutControl.click();
+            browser.driver.sleep(100);
+        } while (i-- > 0);
+
+        zoomOutControl.click().then(function() {
             browser.driver.sleep(400);
-            expect(element(by.model("bounds.southWest.lat")).getAttribute("value")).toBe("51.50713981232172");
-            expect(element(by.model("bounds.southWest.lng")).getAttribute("value")).toBe("-0.09329795837402344");
-            expect(element(by.model("bounds.northEast.lat")).getAttribute("value")).toBe("51.51034504891232");
-            expect(element(by.model("bounds.northEast.lng")).getAttribute("value")).toBe("-0.08247256278991699");
+            expect(element(by.model("bounds.southWest.lat")).getAttribute("value")).toBeCloseTo(51.483, 3);
+            expect(element(by.model("bounds.southWest.lng")).getAttribute("value")).toBeCloseTo(-0.189, 3);
+            expect(element(by.model("bounds.northEast.lat")).getAttribute("value")).toBeCloseTo(51.534, 3);
+            expect(element(by.model("bounds.northEast.lng")).getAttribute("value")).toBeCloseTo(0.014, 3);
         });
 
     });

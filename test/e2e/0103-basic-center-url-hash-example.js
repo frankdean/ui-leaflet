@@ -20,7 +20,7 @@ describe('Loading 0103-basic-center-url-hash-example.html', function() {
         element(by.xpath('//ul/li[3]/input[1]')).sendKeys("4");
         // Wait for zoom animation
         browser.driver.sleep(1500);
-        expect(browser.driver.getCurrentUrl()).toMatch(/c=9.0153:6.9873:4$/);
+      expect(browser.driver.getCurrentUrl()).toMatch(/c=(8\.9|9\.0)\d*:(6\.9|7\.0)\d*:4$/);
     });
 
     it('should update the url if the zoom is changed from the map', function() {

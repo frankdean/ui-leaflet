@@ -6,7 +6,7 @@
 
 ### jasmine specs for directives go here ###
 
-describe 'Directive: leaflet', ->
+describe 'Directive: markers', ->
     mainLayers = mainMarkers = leafletHelpers = leafletData = $rootScope = $compile = undefined
 
     beforeEach module('ui-leaflet')
@@ -53,7 +53,7 @@ describe 'Directive: leaflet', ->
     afterEach inject ($rootScope) ->
         $rootScope.$apply()
     # Marker
-    it 'should create main marker on the map', ->
+    it 'should create main marker on the map', (done) ->
         main_marker =
             lat: 0.966
             lng: 2.02
@@ -61,12 +61,13 @@ describe 'Directive: leaflet', ->
             main_marker: main_marker
         element = angular.element('<leaflet markers="markers"></leaflet>')
         element = $compile(element)($rootScope)
-        $rootScope.$digest()
-        leafletData.getMarkers().then (leafletMarkers) ->
-            leafletMainMarker = leafletMarkers.main_marker
-            expect(leafletMainMarker.getLatLng().lat).toBeCloseTo 0.966
-            expect(leafletMainMarker.getLatLng().lng).toBeCloseTo 2.02
 
+        @digest $rootScope, ->
+            leafletData.getMarkers().then (leafletMarkers) ->
+                leafletMainMarker = leafletMarkers.main_marker
+                expect(leafletMainMarker.getLatLng().lat).toBeCloseTo 0.966
+                expect(leafletMainMarker.getLatLng().lng).toBeCloseTo 2.02
+                done()
 
     describe 'handles common markers correctly', ->
         xit 'markers count should be correct post update with no dupes', ->
@@ -122,19 +123,23 @@ describe 'Directive: leaflet', ->
                 delete self[key]
 
         # Marker
-        it 'should create main marker on the map', ->
-            @testRunner (main_marker, leafletMainMarker) ->
-                expect(leafletMainMarker.getLatLng().lat).toBeCloseTo main_marker.lat
-                expect(leafletMainMarker.getLatLng().lng).toBeCloseTo main_marker.lng
+        it 'should create main marker on the map', (done) ->
+            @digest $rootScope, =>
+                @testRunner (main_marker, leafletMainMarker) ->
+                    expect(leafletMainMarker.getLatLng().lat).toBeCloseTo main_marker.lat
+                    expect(leafletMainMarker.getLatLng().lng).toBeCloseTo main_marker.lng
+                    done()
 
-        it 'should bind popup to main marker if message is given', ->
-            @testRunner ((main_marker, leafletMainMarker) ->
-                expect(leafletMainMarker._popup._content).toEqual main_marker.message
+        it 'should bind popup to main marker if message is given', (done) ->
+            @digest $rootScope, =>
+                @testRunner ((main_marker, leafletMainMarker) ->
+                    expect(leafletMainMarker._popup._content).toEqual main_marker.message
 
-            ), (main_marker) ->
-                angular.extend main_marker, message: 'this is paris'
+                ), (main_marker) ->
+                    angular.extend main_marker, message: 'this is paris'
+                    done()
 
-    it 'should bind popup to main marker if message is given', ->
+    it 'should bind popup to main marker if message is given', (done) ->
         marker =
             lat: 0.966
             lng: 2.02
@@ -143,10 +148,11 @@ describe 'Directive: leaflet', ->
             marker: marker
         element = angular.element('<leaflet markers="markers"></leaflet>')
         element = $compile(element)($rootScope)
-        $rootScope.$digest()
-        leafletData.getMarkers().then (leafletMarkers) ->
-            leafletMainMarker = leafletMarkers.marker
-            expect(leafletMainMarker._popup._content).toEqual 'this is paris'
+        @digest $rootScope, ->
+            leafletData.getMarkers().then (leafletMarkers) ->
+                leafletMainMarker = leafletMarkers.marker
+                expect(leafletMainMarker._popup._content).toEqual 'this is paris'
+                done()
 
     it 'message should be compiled if angular template is given', ->
         marker =
@@ -195,7 +201,7 @@ describe 'Directive: leaflet', ->
         @digest $rootScope
         expect(leafletMainMarker._popup._contentNode.innerHTML).toEqual '<p class="ng-binding">angular</p>'
 
-    it 'should bind label to main marker if message is given', ->
+    it 'should bind label to main marker if message is given', (done) ->
         spyOn(leafletHelpers.LabelPlugin, 'isLoaded').and.returnValue true
         L.Label = L.Class.extend(includes: L.Mixin.Events)
         L.BaseMarkerMethods =
@@ -225,22 +231,24 @@ describe 'Directive: leaflet', ->
             expect(leafletMainMarker.label._content).toEqual 'original'
 
         marker.label.message = 'new'
-        $rootScope.$digest()
-        leafletData.getMarkers().then (leafletMarkers) ->
-            leafletMainMarker = leafletMarkers.marker
-            expect(leafletMainMarker.label._content).toEqual 'new'
+        @digest $rootScope, ->
+            leafletData.getMarkers().then (leafletMarkers) ->
+                leafletMainMarker = leafletMarkers.marker
+                expect(leafletMainMarker.label._content).toEqual 'new'
+                done()
 
     # Markers
-    it 'should create markers on the map', ->
+    it 'should create markers on the map', (done) ->
         angular.extend $rootScope, markers: mainMarkers
         element = angular.element('<leaflet markers="markers"></leaflet>')
         element = $compile(element)($rootScope)
-        $rootScope.$digest()
-        leafletData.getMarkers().then (leafletMarkers) ->
-            expect(leafletMarkers.paris.getLatLng().lat).toBeCloseTo 0.966
-            expect(leafletMarkers.paris.getLatLng().lng).toBeCloseTo 2.02
-            expect(leafletMarkers.madrid.getLatLng().lat).toBeCloseTo 2.02
-            expect(leafletMarkers.madrid.getLatLng().lng).toBeCloseTo 4.04
+        @digest $rootScope, ->
+            leafletData.getMarkers().then (leafletMarkers) ->
+                expect(leafletMarkers.paris.getLatLng().lat).toBeCloseTo 0.966
+                expect(leafletMarkers.paris.getLatLng().lng).toBeCloseTo 2.02
+                expect(leafletMarkers.madrid.getLatLng().lat).toBeCloseTo 2.02
+                expect(leafletMarkers.madrid.getLatLng().lng).toBeCloseTo 4.04
+                done()
 
     describe 'when a marker is updated', ->
         describe 'detecting errors in lat-lng', ->

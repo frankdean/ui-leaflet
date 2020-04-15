@@ -52,7 +52,8 @@ describe 'leafletData directiveControls', ->
                     ]]]
             ]
 
-        @testRunner = (markup, id) ->
+        @testRunner = (done, markup, id) ->
+            retval = undefined
             markup ?= "<leaflet markers='markers' geojson='geojson'></leaflet>"
 
             angular.extend $rootScope,
@@ -66,55 +67,62 @@ describe 'leafletData directiveControls', ->
             element = angular.element markup
             element = $compile(element)($rootScope)
 
-            $rootScope.$digest()
+            #$rootScope.$digest()
 
-            if Array.isArray id
-                return $q.all id.map (anId) ->
-                    leafletData.getDirectiveControls(anId)
-
-            leafletData.getDirectiveControls(id)
+            @digest $rootScope, ->
+                if Array.isArray id
+                    retval =  $q.all id.map (anId) ->
+                        leafletData.getDirectiveControls(anId)
+                retval = leafletData.getDirectiveControls(id)
+                done()
+            retval
 
     ['markers', 'geojson'].forEach (directiveName) ->
         describe "#{directiveName} controls", ->
             beforeEach ->
                 @rootName = directiveName
-                @controlsPromise = @testRunner()
 
-            it 'root', ->
-                @controlsPromise
-                .then (controls) =>
+            it 'root', (done) ->
+                @controlsPromise = @testRunner(done)
+                @controlsPromise.then (controls) =>
                     expect(controls[@rootName]).toBeDefined()
-            it 'create', ->
+            it 'create', (done) ->
+                @controlsPromise = @testRunner(done)
                 @controlsPromise
                 .then (controls) =>
                     expect(controls[@rootName].create).toBeDefined()
-            it 'clean', ->
+            it 'clean', (done) ->
+                @controlsPromise = @testRunner(done)
                 @controlsPromise
                 .then (controls) =>
                     expect(controls[@rootName].clean).toBeDefined()
 
 
         describe "#{directiveName} MANY controls", ->
+            markup = """
+            <leaflet id="map1" markers='markers' geojson='geojson'></leaflet>
+            <leaflet id="map2" markers='markers' geojson='geojson'></leaflet>
+            """
+
             beforeEach ->
                 @rootName = directiveName
-                markup = """
-                <leaflet id="map1" markers='markers' geojson='geojson'></leaflet>
-                <leaflet id="map2" markers='markers' geojson='geojson'></leaflet>
-                """
-                @controlsPromise = @testRunner(markup, ['map1', 'map2'])
 
-            it 'root', ->
+            it 'root', (done) ->
+                @controlsPromise = @testRunner(done, markup, ['map1', 'map2'])
                 @controlsPromise
                 .then (controls) =>
                     expect(controls.length).toBe(2)
                     controls.forEach (c) =>
                         expect(c[@rootName]).toBeDefined()
-            it 'create', ->
+                        done()
+            it 'create', (done) ->
+                @controlsPromise = @testRunner(done, markup, ['map1', 'map2'])
                 @controlsPromise
                 .then (controls) =>
                     controls.forEach (c) =>
                         expect(c[@rootName].create).toBeDefined()
-            it 'clean', ->
+            it 'clean', (done) ->
+                @controlsPromise = @testRunner(done, markup, ['map1', 'map2'])
                 @controlsPromise
                 .then (controls) =>
                     controls.forEach (c) =>
